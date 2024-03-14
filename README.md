@@ -3,5 +3,5 @@
 # What is more users are allowed to update any information regarding the event or delete it if they wish.
 # For this project  i had to install pug template, express, nodemon and express-validator using npm command
 # Also i created json file with npm init -y and to the scripts added start command that starts app.js file
-# link to the app:
+# link to the app: https://cyan-fuzzy-kingfisher.cyclic.app/
  
