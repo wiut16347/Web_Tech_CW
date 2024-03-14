@@ -1,10 +1,25 @@
 include ../head.pug
+style.
+  body th{
+    color: red ;
+  }
+  body{
+    background-color: grey ;
+  }
+  body tr{
+    background: white;
+  }
+  .btn-primary{
+    background: orange;
+  }
+
+  
 body
     .container.mt-5
       h1 List
       table.table.table-responsive.table-hover.table-striped.table-dark
         thead
-          tr
+          tr.clp
             th(scope="col") ID
             th(scope="col") Event Name
             th(scope="col") Event DateTime
@@ -13,23 +28,55 @@ body
             th(scope="col") About Event
             th(scope="col") Change
         tbody
-          tr
-            td 1
-            td Example Event Name 1
-            td 2024-02-17 10:00
-            td Example Venue
-            td +1234567890
-            td Hobby Hoursing
-            td
-              button.btn.btn-primary.btn-sm Edit
-              button.btn.btn-danger.btn-sm Delete
-          tr
-            td 2
-            td Example Event Name 2
-            td 2024-02-17 10:00
-            td Example Venue
-            td +1234567890
-            td Hobby Hoursing
-            td
-              button.btn.btn-primary.btn-sm Edit
-              button.btn.btn-danger.btn-sm Delete
+script.
+      document.addEventListener('DOMContentLoaded', function() {
+        axios.get('/api/event')
+          .then(function(response) {
+            const events = response.data;
+            const tableBody = document.querySelector('table tbody');
+            events.forEach(e => {
+              const row = document.createElement('tr');
+              const event = e.event
+              row.innerHTML = `
+                <td>${e.id}</td>
+                <td>${event.eventName}</td>
+                <td>${event.eventDateTime}</td>
+                <td>${event.venue}</td>
+                <td>${event.contactPhone}</td>
+                <td>${event.seat}</td>
+                <td>
+                  <button class="btn btn-primary btn-sm" data-id="${e.id}">Update</button>
+                  <button class="btn btn-danger btn-sm" data-id="${e.id}">Delete</button>
+                </td>
+              `;
+              tableBody.appendChild(row);
+            });
+          })
+          .catch(function(error) {
+            console.log(error);
+          });
+      });
+    
+    document.addEventListener('click', function(event) {
+      if (event.target && event.target.classList.contains('btn-danger')) {
+        const eventId = event.target.getAttribute('data-id');
+        axios.delete(`/api/event/${eventId}`).then(function(response) {
+          alert('Deleted successfully', response);
+          location.href = '/';
+        })
+        .catch(function(error) {
+          alert('Error deleting event: ' + error);
+        });
+      }
+
+      if (event.target && event.target.classList.contains('btn-primary')) {
+        const eventId = event.target.getAttribute('data-id');
+        location.href = `/update/${eventId}`;
+      }
+    });
+
+    
+
+
+
+      

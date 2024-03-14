@@ -8,9 +8,9 @@ const body_parser = require('body-parser')
 const path = require('path')
 
 // make mock database (raw .json file) available globally in app
-global.mock_db = path.join(__dirname, './data/mock_db.json');
+global.db = path.join(__dirname, './data/db.json');
 
-const web_route = require('./routes/web)
+const web_route = require('./routes/web')
 const api_route = require('./routes/api');
 
 const app = express();

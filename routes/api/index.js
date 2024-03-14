@@ -1,5 +1,5 @@
 const express = require('express')
-const event_router = require('./ticket')
+const event_router = require('./event')
 
 const router = express.Router()
 
